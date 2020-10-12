@@ -33,7 +33,7 @@ if __name__ == "__main__":
         os.makedirs(save_dir)
 
     kit_poses = {}
-    kit_dirs = glob.glob("../../benchmark/data/train" + "/*")
+    kit_dirs = glob.glob("../../benchmark/Data/data/train" + "/*")
     for kit_idx, data_dir in enumerate(kit_dirs):
         print(data_dir.split("/")[-1])
 
@@ -42,7 +42,7 @@ if __name__ == "__main__":
 
         train_foldernames = glob.glob(train_dir + "/*")
         test_foldernames = glob.glob(test_dir + "/*")
-        test_foldernames.sort(key=lambda x: int(x.split("/")[-1]))
+        test_foldernames.sort(key=lambda x: int(x.split("\\")[-1]))
 
         pred_poses = []
         for test_folder in tqdm(test_foldernames, leave=False):
