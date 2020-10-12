@@ -23,7 +23,7 @@ if __name__ == "__main__":
     parser.add_argument("--debug", type=lambda s: s.lower() in ["1", "true"], default=False)
     args, unparsed = parser.parse_known_args()
 
-    kit_dirs = glob.glob("./data/train" + "/*")
+    kit_dirs = glob.glob("./Data/data/train" + "/*")
     dump_dir = "../code/dump/"
     all_poses = pickle.load(open(os.path.join(dump_dir, args.pose_pkl), "rb"))
 
@@ -36,7 +36,7 @@ if __name__ == "__main__":
         estimated_poses = all_poses[data_dir.split("/")[-1]]
         test_dir = os.path.join(data_dir, "test")
         test_foldernames = glob.glob(test_dir + "/*")
-        test_foldernames.sort(key=lambda x: int(x.split("/")[-1]))
+        test_foldernames.sort(key=lambda x: int(x.split("\\")[-1]))
         add_errors = []
         reproj_errors = []
         translational_errors = []
@@ -116,14 +116,14 @@ if __name__ == "__main__":
                 obj_xyz_true = transform_xyz(obj_xyz, true_pose)
                 pcs = []
                 pts = obj_xyz_pred[:, :3].copy().astype(np.float64)
-                pc = o3d.PointCloud()
-                pc.points = o3d.Vector3dVector(pts)
+                pc = o3d.geometry.PointCloud()
+                pc.points = o3d.utility.Vector3dVector(pts)
                 pcs.append(pc)
                 pts = obj_xyz_true[:, :3].copy().astype(np.float64)
-                pc = o3d.PointCloud()
-                pc.points = o3d.Vector3dVector(pts)
+                pc = o3d.geometry.PointCloud()
+                pc.points = o3d.utility.Vector3dVector(pts)
                 pcs.append(pc)
-                o3d.draw_geometries(pcs)
+                o3d.visualization.draw_geometries(pcs)
 
             # compute metric
             add_err = compute_ADD(true_pose, estimated_pose, obj_xyz)
